@@ -1,6 +1,12 @@
 
+# aidar - Reading AIDA files into R
 
-# Installing the development version of aidar from github:
+This package allows to read histograms and tuples from <a href="http://aida.freehep.org/">AIDA</a> files.
+
+The various objects from the file will be converted into R's dataframes. 
+
+
+## Installing the development version of aidar from github:
 
 (from <http://stackoverflow.com/questions/9656016/how-to-install-development-version-of-r-packages-github-repository>)
 
@@ -15,7 +21,7 @@
 	# when finished do:
 	dev_mode(on=F)      # ... and you are back to having stable ggplot2
 	
-# Examples of usage
+## Examples of usage
 
 First set up access to the file, here we use a gzip compressed XML file in the package:
 
@@ -40,5 +46,4 @@ Similar for a tuple named '100' in the gzip-compressed XML file:
 	aTup = getAnnotation(tupleFile, '100')
 	
 	t100 = getTuple(tupleFile, '100')
-	
 	
