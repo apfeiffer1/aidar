@@ -1,0 +1,44 @@
+
+
+# Installing the development version of aidar from github:
+
+(from <http://stackoverflow.com/questions/9656016/how-to-install-development-version-of-r-packages-github-repository>)
+
+	install.packages("devtools")
+	library(devtools)
+	
+	dev_mode(on=T) # switch to development mode 
+	install_github("aidar", username="apfeiffer1")
+	
+	# use dev ggplot2 now
+	
+	# when finished do:
+	dev_mode(on=F)      # ... and you are back to having stable ggplot2
+	
+# Examples of usage
+
+First set up access to the file, here we use a gzip compressed XML file in the package:
+
+	histoFile = system.file("inst", "data", "histos.xml.gz", package="aidar")
+
+We can list the content of the file via:
+
+	getFileInfo(histoFile)
+
+Now we can get the annotation of the object with the name "1" from the file:
+
+	a1 = getAnnotation(histoFile, '1')
+	
+And that's how we get the (content of the) 1D histogram named '1' in the file into a R data-frame:
+
+	h1 = getHisto1D(histoFile, '1')
+	
+
+Similar for a tuple named '100' in the gzip-compressed XML file:
+	
+	tupleFile = system.file("inst", "data", "tuple.xml.gz", package="aidar")
+	aTup = getAnnotation(tupleFile, '100')
+	
+	t100 = getTuple(tupleFile, '100')
+	
+	

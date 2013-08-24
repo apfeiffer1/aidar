@@ -1,7 +1,9 @@
-Package: aidaR
+Package: aidar
 Title: Tools for reading AIDA (http://aida.freehep.org/) files into R
-Description: The histograms of the AIDA file are read and are visible as data in R
-Version: 0.1
+Description: The histograms of the AIDA file are read and are visible as dataframes in R
+Version: 0.1.0
 Author: Andreas Pfeiffer <apfeiffer1@gmail.com>
 Maintainer: Andreas Pfeiffer <apfeiffer1@gmail.com>
 License: LGPL-3
+Suggests: testthat
+Depends: XML
