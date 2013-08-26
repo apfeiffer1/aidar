@@ -25,11 +25,12 @@ The various objects from the file will be converted into R's dataframes.
 
 First set up access to the file, here we use a gzip compressed XML file in the package:
 
-	histoFile = system.file("inst", "data", "histos.xml.gz", package="aidar")
+	histoFile = system.file("data", "histos.xml.gz", package="aidar")
 
 We can list the content of the file via:
 
-	getFileInfo(histoFile)
+	info = getFileInfo(histoFile)
+	print(info)
 
 Now we can get the annotation of the object with the name "1" from the file:
 
@@ -40,10 +41,14 @@ And that's how we get the (content of the) 1D histogram named '1' in the file in
 	h1 = getHisto1D(histoFile, '1')
 	
 
-Similar for a tuple named '100' in the gzip-compressed XML file:
+Similar for a tuple named '100' in the gzip-compressed XML file (this will take a few seconds):
 	
-	tupleFile = system.file("inst", "data", "tuple.xml.gz", package="aidar")
+	tupleFile = system.file("data", "tuple.xml.gz", package="aidar")
 	aTup = getAnnotation(tupleFile, '100')
 	
 	t100 = getTuple(tupleFile, '100')
 	
+... and plot one of the tuple's columns:
+
+ 	plot(t100$sin)
+
