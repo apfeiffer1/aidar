@@ -15,8 +15,9 @@ The various objects from the file will be converted into R's dataframes.
 	
 	dev_mode(on=T) # switch to development mode 
 	install_github("aidar", username="apfeiffer1")
+	library(aidar)
 	
-	# use dev ggplot2 now
+	# now you can use the aidar library - see the "examples of usage" below
 	
 	# when finished do:
 	dev_mode(on=F)      # ... and you are back to having stable ggplot2
