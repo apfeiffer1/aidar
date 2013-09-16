@@ -4,7 +4,7 @@
 getFileInfo <- function(fileName) {
 
 	doc   = xmlRoot(xmlTreeParse(fileName))
-	allTypes = c("histogram1d", "histogram2d", "profile1d", "tuple")
+	allTypes = c("histogram1d", "histogram2d", "histogram3d", "profile1d", "tuple", "cloud1d", "cloud2d", "cloud3d")
 	content = vector(mode="list", length=length(allTypes))
 	names(content) = allTypes
 	
@@ -13,11 +13,8 @@ getFileInfo <- function(fileName) {
 		if ( !is.null( aidaObj ) ) {
 			name    = as.character( sapply( aidaObj, xmlGetAttr, "name") )
 			title   = as.character( sapply( aidaObj, xmlGetAttr, "title") )
-			if ( !("tuple" %in% type) ) {
-				entries = as.numeric( sapply( sapply( aidaObj, getNodeSet, "//statistics"), getEntries ) )
-			} else {
-				entries = as.numeric( sapply( sapply(aidaObj, getNodeSet, "//rows"), length ) )
-			}
+			ann     = getAnnotation(fileName, name)
+			entries = ann$values[ann$keys=="Entries"]
 		}
 		content[[type]] = data.frame(name, title, entries, stringsAsFactors = FALSE)
 	}
@@ -27,12 +24,13 @@ getFileInfo <- function(fileName) {
 # --------------------------------------------------------------------------------
 # retrieves the annotation of a given AIDA object by it's name from the given file:
 
-getAnnotation <- function(fileName, histoName) {
+getAnnotation <- function(fileName, objectName) {
 
 	doc   = xmlRoot(xmlTreeParse(fileName))
 
-	for (hType in c("histogram1d", "histogram2d", "profile1d", "tuple") ) {
-		ann   = getNodeSet(doc, paste("//",hType,"[@name=\"",histoName,"\"]/annotation/item", sep="") )
+	allTypes = c("histogram1d", "histogram2d", "histogram3d", "profile1d", "tuple", "cloud1d", "cloud2d", "cloud3d")
+	for (hType in allTypes ) {
+		ann   = getNodeSet(doc, paste("//",hType,"[@name=\"",objectName,"\"]/annotation/item", sep="") )
 		if ( !is.null(ann) ) { break }
 	}
 
@@ -94,6 +92,38 @@ getHisto2D <- function(fileName, histoName) {
 }
 
 # --------------------------------------------------------------------------------
+# retrieves a given 3D histogram by it's name from the given file:
+
+getHisto3D <- function(fileName, histoName) {
+
+	doc   = xmlRoot(xmlTreeParse(fileName))
+	bins = getNodeSet(doc, paste("//histogram3d[@name=\"",histoName,"\"]/data3d/bin3d", sep=""))
+
+	binNumberX    = as.character( sapply(bins, xmlGetAttr, "binNumX") )
+	binNumberY    = as.character( sapply(bins, xmlGetAttr, "binNumY") )
+	binNumberZ    = as.character( sapply(bins, xmlGetAttr, "binNumZ") )
+
+	entries       = as.double( sapply(bins, xmlGetAttr, "entries") )
+	error         = as.double( sapply(bins, xmlGetAttr, "error") )
+	height        = as.double( sapply(bins, xmlGetAttr, "height") )
+
+	weightedMeanX = as.double( sapply(bins, xmlGetAttr, "weightedMeanX") )
+	weightedMeanY = as.double( sapply(bins, xmlGetAttr, "weightedMeanY") )
+	weightedMeanZ = as.double( sapply(bins, xmlGetAttr, "weightedMeanZ") )
+
+	xAxisNode = getNodeSet( doc, paste("//histogram3d[@name=\"",histoName,"\"]/axis[@direction='x']", sep="") )
+	binX = getBins(xAxisNode, binNumberX)
+
+	yAxisNode = getNodeSet( doc, paste("//histogram3d[@name=\"",histoName,"\"]/axis[@direction='y']", sep="") )
+	binY = getBins(yAxisNode, binNumberY)
+
+	zAxisNode = getNodeSet( doc, paste("//histogram3d[@name=\"",histoName,"\"]/axis[@direction='z']", sep="") )
+	binZ = getBins(zAxisNode, binNumberY)
+
+	result = data.frame(binNumberX, binNumberY, binNumberZ, binX, binY, binZ, entries, error, height, weightedMeanX, weightedMeanY, weightedMeanZ)
+}
+
+# --------------------------------------------------------------------------------
 # retrieves a given 1D profile histogram by it's name from the given file:
 
 getProfile1D <- function(fileName, histoName) {
@@ -115,7 +145,7 @@ getProfile1D <- function(fileName, histoName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given 1D profile histogram by it's name from the given file:
+# retrieves a given tuple by it's name from the given file:
 
 getTuple <- function(fileName, tupName) {
 
@@ -131,9 +161,56 @@ getTuple <- function(fileName, tupName) {
 }
 
 # --------------------------------------------------------------------------------
+# retrieves a given 1D cloud by it's name from the given file:
+
+getCloud1D <- function(fileName, cloudName) {
+
+	doc   = xmlRoot(xmlTreeParse(fileName))
+
+	bins = getNodeSet(doc, paste("//cloud1d[@name=\"",cloudName,"\"]/entries1d/entry1d", sep=""))
+	valuesX = as.double( sapply(bins, xmlGetAttr, "valueX") )
+
+	result = data.frame(valuesX)
+}
+
+# --------------------------------------------------------------------------------
+# retrieves a given 2D cloud by it's name from the given file:
+
+getCloud2D <- function(fileName, cloudName) {
+
+	doc   = xmlRoot(xmlTreeParse(fileName))
+
+	bins = getNodeSet(doc, paste("//cloud2d[@name=\"",cloudName,"\"]/entries2d/entry2d", sep=""))
+	valuesX = as.double( sapply(bins, xmlGetAttr, "valueX") )
+	valuesY = as.double( sapply(bins, xmlGetAttr, "valueY") )
+
+	result = data.frame(valuesX, valuesY)
+}
+
+# --------------------------------------------------------------------------------
+# retrieves a given 3D cloud by it's name from the given file:
+
+getCloud3D <- function(fileName, cloudName) {
+
+	doc   = xmlRoot(xmlTreeParse(fileName))
+
+	bins = getNodeSet(doc, paste("//cloud3d[@name=\"",cloudName,"\"]/entries3d/entry3d", sep=""))
+	valuesX = as.double( sapply(bins, xmlGetAttr, "valueX") )
+	valuesY = as.double( sapply(bins, xmlGetAttr, "valueY") )
+	valuesZ = as.double( sapply(bins, xmlGetAttr, "valueZ") )
+
+	result = data.frame(valuesX, valuesY, valuesZ)
+}
+
+
+
+# --------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------
 
 # various helper functions follow here
+
+# --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
 
 getRow <- function(rowNode) {
 	values = sapply( getNodeSet(rowNode, "//entry") , xmlGetAttr, "value" )

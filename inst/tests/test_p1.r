@@ -10,20 +10,20 @@ test_that("reading a 1D profile histogram from file", {
 	expect_equal( length(h10), 7 )
 	expect_equal( names(h10) , c("binNumber", "binX", "entries", "error", "height", "rms", "weightedMean") )
 	
-	expect_equal( mean(h10$entries)     , 19.23077, tolerance = 1.E-6, scale = mean(h10$entries) )
-	expect_equal( mean(h10$height)      , 30.44692, tolerance = 1.E-6, scale = mean(h10$height) )
-	expect_equal( mean(h10$weightedMean), 25.06489, tolerance = 1.E-6, scale = mean(h10$weightedMean) )
-	expect_equal( mean(h10$rms)         , 8.822746, tolerance = 1.E-6, scale = mean(h10$rms)  )
-	expect_equal( mean(h10$error)       , 2.692182, tolerance = 1.E-6, scale = mean(h10$error)  )
+	expect_equal( mean(h10$entries)     , 19.60784, tolerance = 1.E-6, scale = mean(h10$entries) )
+	expect_equal( mean(h10$height)      , 30.18176, tolerance = 1.E-6, scale = mean(h10$height) )
+	expect_equal( mean(h10$weightedMean), 24.64177, tolerance = 1.E-6, scale = mean(h10$weightedMean) )
+	expect_equal( mean(h10$rms)         , 9.439369, tolerance = 1.E-6, scale = mean(h10$rms)  )
+	expect_equal( mean(h10$error)       , 2.974591, tolerance = 1.E-6, scale = mean(h10$error)  )
 
 })
 
-test_that("getAnnotation", {
+test_that("getAnnotation(1D profile)", {
 
 	a10 = getAnnotation(histoFile, 'Example profile (gauss)')
 
 	expect_equal( length(a10$key), 8 )
 	
-	expect_equal( a10$values[[3]], "969" )
-	expect_equal( a10$values[[4]], "20.278" )	
+	expect_equal( a10$values[[3]], "971" )
+	expect_equal( a10$values[[4]], "20.288" )	
 })
