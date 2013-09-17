@@ -4,7 +4,7 @@
 getFileInfo <- function(fileName) {
 
 	doc   = xmlRoot(xmlTreeParse(fileName))
-	allTypes = c("histogram1d", "histogram2d", "histogram3d", "profile1d", "tuple", "cloud1d", "cloud2d", "cloud3d")
+	allTypes = c("histogram1d", "histogram2d", "histogram3d", "profile1d", "profile2d", "tuple", "cloud1d", "cloud2d", "cloud3d")
 	content = vector(mode="list", length=length(allTypes))
 	names(content) = allTypes
 	
@@ -28,7 +28,7 @@ getAnnotation <- function(fileName, objectName) {
 
 	doc   = xmlRoot(xmlTreeParse(fileName))
 
-	allTypes = c("histogram1d", "histogram2d", "histogram3d", "profile1d", "tuple", "cloud1d", "cloud2d", "cloud3d")
+	allTypes = c("histogram1d", "histogram2d", "histogram3d", "profile1d", "profile2d", "tuple", "cloud1d", "cloud2d", "cloud3d")
 	for (hType in allTypes ) {
 		ann   = getNodeSet(doc, paste("//",hType,"[@name=\"",objectName,"\"]/annotation/item", sep="") )
 		if ( !is.null(ann) ) { break }
@@ -142,6 +142,32 @@ getProfile1D <- function(fileName, histoName) {
 	binX = getBins(xAxisNode, binNumber)
 
 	result = data.frame(binNumber, binX, entries, error, height, rms, weightedMean)
+}
+
+# --------------------------------------------------------------------------------
+# retrieves a given 2D profile histogram by it's name from the given file:
+
+getProfile2D <- function(fileName, histoName) {
+
+	doc   = xmlRoot(xmlTreeParse(fileName))
+	bins = getNodeSet(doc, paste("//profile2d[@name=\"",histoName,"\"]/data2d/bin2d", sep=""))
+
+	binNumberX    = as.character( sapply(bins, xmlGetAttr, "binNumX") )
+	binNumberY    = as.character( sapply(bins, xmlGetAttr, "binNumY") )
+
+	entries       = as.double( sapply(bins, xmlGetAttr, "entries") )
+	error         = as.double( sapply(bins, xmlGetAttr, "error") )
+	height        = as.double( sapply(bins, xmlGetAttr, "height") )
+	rms           = as.double( sapply(bins, xmlGetAttr, "rms") )
+	weightedMeanX = as.double( sapply(bins, xmlGetAttr, "weightedMeanX") )
+	weightedMeanY = as.double( sapply(bins, xmlGetAttr, "weightedMeanY") )
+
+	xAxisNode = getNodeSet( doc, paste("//profile2d[@name=\"",histoName,"\"]/axis[@direction='x']", sep="") )
+	binX = getBins(xAxisNode, binNumberX)
+	yAxisNode = getNodeSet( doc, paste("//profile2d[@name=\"",histoName,"\"]/axis[@direction='y']", sep="") )
+	binY = getBins(yAxisNode, binNumberY)
+
+	result = data.frame(binNumberX, binNumberY, binX, binY, entries, error, height, rms, weightedMeanX, weightedMeanY)
 }
 
 # --------------------------------------------------------------------------------
