@@ -3,20 +3,28 @@
 
 getFileInfo <- function(fileName) {
 
-	doc   = xmlRoot(xmlTreeParse(fileName))
-	allTypes = c("histogram1d", "histogram2d", "histogram3d", "profile1d", "profile2d", "tuple", "cloud1d", "cloud2d", "cloud3d")
+	doc   = xmlRoot(xmlTreeParse(fileName, useInternalNodes=TRUE))
+	allTypes = names(doc)  # c("histogram1d", "histogram2d", "histogram3d", "profile1d", "profile2d", "tuple", "cloud1d", "cloud2d", "cloud3d")
+
 	content = vector(mode="list", length=length(allTypes))
 	names(content) = allTypes
 	
 	for (type in allTypes ) {
-		aidaObj = getNodeSet(doc, paste("//",type,"[@name]") )
-		if ( !is.null( aidaObj ) ) {
-			name    = as.character( sapply( aidaObj, xmlGetAttr, "name") )
-			title   = as.character( sapply( aidaObj, xmlGetAttr, "title") )
-			ann     = getAnnotation(fileName, name)
-			entries = ann$values[ann$keys=="Entries"]
-		}
-		content[[type]] = data.frame(name, title, entries, stringsAsFactors = FALSE)
+		if ( type != "implementation") {
+			aidaObj = doc[type] # getNodeSet(doc, paste("/aida/",type,"[@name]") )
+			if ( !is.null( aidaObj ) ) {
+				name    = as.character( sapply( aidaObj, xmlGetAttr, "name") )
+				title   = as.character( sapply( aidaObj, xmlGetAttr, "title") )
+				ann     = getAnnotation(fileName, name)
+				if ( c("Entries") %in% ann$keys) {
+					entries = ann$values[ann$keys=="Entries"]
+				} else {
+					# todo: handle case of several tuples in the same file
+					entries = length(doc[["tuple"]][["rows"]])
+				}
+			}
+			content[[type]] = data.frame(name, title, entries, stringsAsFactors = FALSE)
+		} # ignore "implementation"
 	}
 	result = content
 }
@@ -26,13 +34,15 @@ getFileInfo <- function(fileName) {
 
 getAnnotation <- function(fileName, objectName) {
 
-	doc   = xmlRoot(xmlTreeParse(fileName))
+	doc   = xmlRoot(xmlTreeParse(fileName, useInternalNodes=TRUE))
 
-	allTypes = c("histogram1d", "histogram2d", "histogram3d", "profile1d", "profile2d", "tuple", "cloud1d", "cloud2d", "cloud3d")
-	for (hType in allTypes ) {
-		ann   = getNodeSet(doc, paste("//",hType,"[@name=\"",objectName,"\"]/annotation/item", sep="") )
-		if ( !is.null(ann) ) { break }
-	}
+	# find the correct annotation (we need the type, so we loop over what we got)
+ 	for (hType in names(doc) ) {   # allTypes ) {
+ 		if ( hType != "implementation") { # ... and ignore that one :)
+ 			ann   = getNodeSet(doc, paste("/aida/",hType,"[@name=\"",objectName,"\"]/annotation/item", sep="") )
+ 			if ( !is.null(ann) ) { break } # found it ...
+ 		}
+ 	}
 
 	keys   = as.character( sapply( ann, xmlGetAttr,   "key" ) )
 	values = as.character( sapply( ann, xmlGetAttr, "value" ) )
@@ -177,10 +187,10 @@ getTuple <- function(fileName, tupName) {
 
 	doc   = xmlRoot(xmlTreeParse(fileName))
 
-	columns = getNodeSet(doc, paste("//tuple[@name=\"",tupName,"\"]/columns/column", sep=""))
+	columns = getNodeSet(doc, paste("/aida/tuple[@name=\"",tupName,"\"]/columns/column", sep=""))
 	colNames = as.character( sapply( columns, xmlGetAttr, "name") )
 	
-	rows = getNodeSet(doc, paste("//tuple[@name=\"",tupName,"\"]/rows/row", sep=""))
+	rows = getNodeSet(doc, paste("/aida/tuple[@name=\"",tupName,"\"]/rows/row", sep=""))
 	rowValues = as.numeric( sapply ( rows, getRow ) )
 
 	result = data.frame( matrix( rowValues, ncol=length(colNames), dimnames = list(c(), colNames), byrow=TRUE ) )

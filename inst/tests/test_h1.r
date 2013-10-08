@@ -1,5 +1,5 @@
 
-histoFile = system.file("data", "histos.xml.gz", package="aidar")
+histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
 
 test_that("reading a 1D histogram from file", {
 

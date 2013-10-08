@@ -30,6 +30,11 @@ First use R's system tools to create the filename, for this example we use a gzi
 
 	histoFile = system.file("inst", "data", "histos.xml.gz", package="aidar")
 
+If you want to use your own file, do not use this method, but rather specify the path to your file:
+
+	histoFile = "/path/to/my/files/histos.xml.gz"
+
+
 We can list the content of the file via:
 
 	info = getFileInfo(histoFile)

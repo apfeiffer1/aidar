@@ -1,5 +1,5 @@
 
-histoFile = system.file("data", "clouds.xml.gz", package="aidar")
+histoFile = system.file("extdata", "clouds.xml.gz", package="aidar")
 
 test_that("reading a 2D cloud from file", {
 

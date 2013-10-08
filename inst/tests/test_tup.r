@@ -1,5 +1,5 @@
 
-tupleFile = system.file("data", "tuple.xml.gz", package="aidar")
+tupleFile = system.file("extdata", "tuple.xml.gz", package="aidar")
 
 test_that("reading a tuple from file", {
 
