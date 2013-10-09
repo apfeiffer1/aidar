@@ -4,12 +4,9 @@
 getFileInfo <- function(fileName) {
 
 	doc   = xmlRoot(xmlTreeParse(fileName, useInternalNodes=TRUE))
-	allTypes = names(doc)  # c("histogram1d", "histogram2d", "histogram3d", "profile1d", "profile2d", "tuple", "cloud1d", "cloud2d", "cloud3d")
 
-	content = vector(mode="list", length=length(allTypes))
-	names(content) = allTypes
-	
-	for (type in allTypes ) {
+	content = vector(mode="list", length=length( names(doc) )-1)	
+	for (type in names(doc) ) {
 		if ( type != "implementation") {
 			aidaObj = doc[type] # getNodeSet(doc, paste("/aida/",type,"[@name]") )
 			if ( !is.null( aidaObj ) ) {
@@ -19,8 +16,12 @@ getFileInfo <- function(fileName) {
 				if ( c("Entries") %in% ann$keys) {
 					entries = ann$values[ann$keys=="Entries"]
 				} else {
-					# todo: handle case of several tuples in the same file
-					entries = length(doc[["tuple"]][["rows"]])
+					if ( type == "tuple") {
+						rows = getNodeSet(doc, paste("/aida/tuple[@name=\"",name,"\"]/rows/row", sep="") ) 
+						entries = length( rows )
+					} else {
+						entries = -1
+					}
 				}
 			}
 			content[[type]] = data.frame(name, title, entries, stringsAsFactors = FALSE)
