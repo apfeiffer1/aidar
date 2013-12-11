@@ -10,5 +10,3 @@ Suggests:
     testthat
 Depends:
     XML
-Collate:
-    'aidar.R'
