@@ -2,7 +2,7 @@ Package: aidar
 Title: Tools for reading AIDA (http://aida.freehep.org/) files into R
 Description: Read objects from the AIDA file and make them available
     as dataframes in R
-Version: 0.1.0
+Version: 1.0.0
 Author: Andreas Pfeiffer <apfeiffer1@gmail.com>
 Maintainer: Andreas Pfeiffer <apfeiffer1@gmail.com>
 License: LGPL (>= 2)
