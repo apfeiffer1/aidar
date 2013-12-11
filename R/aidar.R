@@ -1,5 +1,18 @@
 # --------------------------------------------------------------------------------
-# lists the content of a given AIDA file (uncompressed XML)
+#'
+#' lists the content of a given AIDA file.
+#'
+#' This function lists the context of a given AIDA file. The AIDA file should have
+#' been written out in "uncompressed" format which subsequently can be gzip compressed.
+#'
+#' @param fileName name of the AIDA file
+#'
+#' @keywords aida file
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
+#' info = getFileInfo(histoFile)
+#'
 
 getFileInfo <- function(fileName) {
 
@@ -31,7 +44,18 @@ getFileInfo <- function(fileName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves the annotation of a given AIDA object by it's name from the given file:
+#'
+#' retrieves the annotation of a given AIDA object by it's name from the given file
+#'
+#' @param fileName name of the AIDA file
+#' @param objectName name of the AIDA object for which the annotation is to be found
+#'
+#' @keywords aida annotation
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
+#' ann = getAnnotation(histoFile, '21')
+#'
 
 getAnnotation <- function(fileName, objectName) {
 
@@ -52,7 +76,19 @@ getAnnotation <- function(fileName, objectName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given 1D histogram by it's name from the given file:
+#'
+#' retrieves a given 1D histogram by it's name from the given file and returns 
+#' it as a data.frame
+#'
+#' @param fileName name of the AIDA file
+#' @param histoName name of the AIDA 1D histogram to be returned as a data.frame
+#'
+#' @keywords aida histogram
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
+#' h1 = getHisto1D(histoFile, '1')
+#'
 
 getHisto1D <- function(fileName, histoName) {
 
@@ -77,7 +113,19 @@ getHisto1D <- function(fileName, histoName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given 2D histogram by it's name from the given file:
+#'
+#' retrieves a given 2D histogram by it's name from the given file and returns 
+#' it as a data.frame
+#'
+#' @param fileName name of the AIDA file
+#' @param histoName name of the AIDA 2D histogram to be returned as a data.frame
+#'
+#' @keywords aida histogram
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
+#' h2 = getHisto2D(histoFile, '10')
+#'
 
 getHisto2D <- function(fileName, histoName) {
 
@@ -103,7 +151,19 @@ getHisto2D <- function(fileName, histoName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given 3D histogram by it's name from the given file:
+#'
+#' retrieves a given 3D histogram by it's name from the given file and returns 
+#' it as a data.frame
+#'
+#' @param fileName name of the AIDA file
+#' @param histoName name of the AIDA 3D histogram to be returned as a data.frame
+#'
+#' @keywords aida histogram
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
+#' h3 = getHisto3D(histoFile, '13')
+#'
 
 getHisto3D <- function(fileName, histoName) {
 
@@ -135,7 +195,19 @@ getHisto3D <- function(fileName, histoName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given 1D profile histogram by it's name from the given file:
+#'
+#' retrieves a given 1D profile histogram by it's name from the given file and returns 
+#' it as a data.frame
+#'
+#' @param fileName name of the AIDA file
+#' @param histoName name of the AIDA 1D profile histogram to be returned 
+#'
+#' @keywords aida profile histogram
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
+#' p1d = getProfile1D(histoFile, 'Example profile (gauss)')
+#'
 
 getProfile1D <- function(fileName, histoName) {
 
@@ -156,7 +228,19 @@ getProfile1D <- function(fileName, histoName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given 2D profile histogram by it's name from the given file:
+#'
+#' retrieves a given 2D profile histogram by it's name from the given file and returns 
+#' it as a data.frame
+#'
+#' @param fileName name of the AIDA file
+#' @param histoName name of the AIDA 2D profile histogram to be returned 
+#'
+#' @keywords aida profile histogram
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
+#' p2d = getProfile2D(histoFile, 'Example 2D profile (gauss)')
+#'
 
 getProfile2D <- function(fileName, histoName) {
 
@@ -182,7 +266,19 @@ getProfile2D <- function(fileName, histoName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given tuple by it's name from the given file:
+#'
+#' retrieves a given tuple by it's name from the given file and returns 
+#' it as a data.frame
+#'
+#' @param fileName name of the AIDA file
+#' @param tupName  name of the AIDA tuple to be returned 
+#'
+#' @keywords aida tuple
+#' @export
+#' @examples
+#' tupleFile = system.file("extdata", "tuple.xml.gz", package="aidar")
+#' t100 = getTuple(tupleFile, '100')
+#'
 
 getTuple <- function(fileName, tupName) {
 
@@ -198,7 +294,19 @@ getTuple <- function(fileName, tupName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given 1D cloud by it's name from the given file:
+#'
+#' retrieves a given 1D cloud by it's name from the given file and returns 
+#' it as a data.frame
+#'
+#' @param fileName name of the AIDA file
+#' @param cloudName name of the AIDA 1D cloud to be returned 
+#'
+#' @keywords aida cloud
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "clouds.xml.gz", package="aidar")
+#' c1d = getCloud1D(histoFile, '21')
+#'
 
 getCloud1D <- function(fileName, cloudName) {
 
@@ -211,7 +319,19 @@ getCloud1D <- function(fileName, cloudName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given 2D cloud by it's name from the given file:
+#'
+#' retrieves a given 2D cloud by it's name from the given file and returns 
+#' it as a data.frame
+#'
+#' @param fileName name of the AIDA file
+#' @param cloudName name of the AIDA 2D cloud to be returned 
+#'
+#' @keywords aida cloud
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "clouds.xml.gz", package="aidar")
+#' c2d = getCloud2D(histoFile, '30')
+#'
 
 getCloud2D <- function(fileName, cloudName) {
 
@@ -225,7 +345,19 @@ getCloud2D <- function(fileName, cloudName) {
 }
 
 # --------------------------------------------------------------------------------
-# retrieves a given 3D cloud by it's name from the given file:
+#'
+#' retrieves a given 3D cloud by it's name from the given file and returns 
+#' it as a data.frame
+#'
+#' @param fileName name of the AIDA file
+#' @param cloudName name of the AIDA 3D cloud to be returned 
+#'
+#' @keywords aida cloud
+#' @export
+#' @examples
+#' histoFile = system.file("extdata", "clouds.xml.gz", package="aidar")
+#' c3d = getCloud3D(histoFile, '33')
+#'
 
 getCloud3D <- function(fileName, cloudName) {
 
