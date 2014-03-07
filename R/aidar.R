@@ -99,8 +99,9 @@ getHisto1D <- function(fileName, histoName) {
 	entries      = as.double( sapply(bins, xmlGetAttr, "entries") )
 	error        = as.double( sapply(bins, xmlGetAttr, "error") )
 	height       = as.double( sapply(bins, xmlGetAttr, "height") )
-	weightedMean = as.double( sapply(bins, xmlGetAttr, "weightedMean") )
-
+    # if bin is filled only with "0", (error == height == 0), the weightedMean(==0) is not written out to the XML:
+    weightedMean = as.double( lapply( sapply(bins, xmlGetAttr, "weightedMean"), toZero ) )
+    
 	xAxisNode = getNodeSet( doc, paste("//histogram1d[@name=\"",histoName,"\"]/axis[@direction='x']", sep="") )
 	min   = as.numeric( xmlGetAttr(xAxisNode[[1]], "min") )
 	max   = as.numeric( xmlGetAttr(xAxisNode[[1]], "max") )
@@ -138,8 +139,10 @@ getHisto2D <- function(fileName, histoName) {
 	entries       = as.double( sapply(bins, xmlGetAttr, "entries") )
 	error         = as.double( sapply(bins, xmlGetAttr, "error") )
 	height        = as.double( sapply(bins, xmlGetAttr, "height") )
-	weightedMeanX = as.double( sapply(bins, xmlGetAttr, "weightedMeanX") )
-	weightedMeanY = as.double( sapply(bins, xmlGetAttr, "weightedMeanY") )
+    
+    # if bin is filled only with "0", (error == height == 0), the weightedMean(==0) is not written out to the XML:
+    weightedMeanX = as.double( lapply( sapply(bins, xmlGetAttr, "weightedMeanX"), toZero ) )
+    weightedMeanY = as.double( lapply( sapply(bins, xmlGetAttr, "weightedMeanY"), toZero ) )
 
 	xAxisNode = getNodeSet( doc, paste("//histogram2d[@name=\"",histoName,"\"]/axis[@direction='x']", sep="") )
 	binX = getBins(xAxisNode, binNumberX)
@@ -178,9 +181,10 @@ getHisto3D <- function(fileName, histoName) {
 	error         = as.double( sapply(bins, xmlGetAttr, "error") )
 	height        = as.double( sapply(bins, xmlGetAttr, "height") )
 
-	weightedMeanX = as.double( sapply(bins, xmlGetAttr, "weightedMeanX") )
-	weightedMeanY = as.double( sapply(bins, xmlGetAttr, "weightedMeanY") )
-	weightedMeanZ = as.double( sapply(bins, xmlGetAttr, "weightedMeanZ") )
+    # if bin is filled only with "0", (error == height == 0), the weightedMean(==0) is not written out to the XML:
+    weightedMeanX = as.double( lapply( sapply(bins, xmlGetAttr, "weightedMeanX"), toZero ) )
+    weightedMeanY = as.double( lapply( sapply(bins, xmlGetAttr, "weightedMeanY"), toZero ) )
+    weightedMeanZ = as.double( lapply( sapply(bins, xmlGetAttr, "weightedMeanZ"), toZero ) )
 
 	xAxisNode = getNodeSet( doc, paste("//histogram3d[@name=\"",histoName,"\"]/axis[@direction='x']", sep="") )
 	binX = getBins(xAxisNode, binNumberX)
@@ -219,7 +223,8 @@ getProfile1D <- function(fileName, histoName) {
 	error         = as.double( sapply(bins, xmlGetAttr, "error") )
 	height        = as.double( sapply(bins, xmlGetAttr, "height") )
 	rms           = as.double( sapply(bins, xmlGetAttr, "rms") )
-	weightedMean = as.double( sapply(bins, xmlGetAttr, "weightedMean") )
+
+    weightedMean = as.double( lapply( sapply(bins, xmlGetAttr, "weightedMean"), toZero ) )
 
 	xAxisNode = getNodeSet( doc, paste("//profile1d[@name=\"",histoName,"\"]/axis[@direction='x']", sep="") )
 	binX = getBins(xAxisNode, binNumber)
@@ -254,8 +259,9 @@ getProfile2D <- function(fileName, histoName) {
 	error         = as.double( sapply(bins, xmlGetAttr, "error") )
 	height        = as.double( sapply(bins, xmlGetAttr, "height") )
 	rms           = as.double( sapply(bins, xmlGetAttr, "rms") )
-	weightedMeanX = as.double( sapply(bins, xmlGetAttr, "weightedMeanX") )
-	weightedMeanY = as.double( sapply(bins, xmlGetAttr, "weightedMeanY") )
+
+    weightedMeanX = as.double( lapply( sapply(bins, xmlGetAttr, "weightedMeanX"), toZero ) )
+    weightedMeanY = as.double( lapply( sapply(bins, xmlGetAttr, "weightedMeanY"), toZero ) )
 
 	xAxisNode = getNodeSet( doc, paste("//profile2d[@name=\"",histoName,"\"]/axis[@direction='x']", sep="") )
 	binX = getBins(xAxisNode, binNumberX)
@@ -400,6 +406,14 @@ getBinCentre1D <- function (binNr, dx, min, max) {
 
 	# print ( paste("binNr: ", binNr, " dx = ", dx, 'val = ', val) )
 	result = min + as.double(binNr)*dx + dx/2
+}
+
+toZero <- function( val ) {
+    if ( is.null(val) ) { 
+        val = 0 
+    } else {
+        val = val
+    }
 }
 
 getEntries <- function(node) {
