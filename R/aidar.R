@@ -12,7 +12,7 @@
 #' @examples
 #' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
 #' info = getFileInfo(histoFile)
-#' getFileInfo()
+#'
 
 getFileInfo <- function(fileName) {
 
@@ -55,7 +55,7 @@ getFileInfo <- function(fileName) {
 #' @examples
 #' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
 #' ann = getAnnotation(histoFile, '21')
-#' getAnnotation()
+#'
 
 getAnnotation <- function(fileName, objectName) {
 
@@ -88,7 +88,7 @@ getAnnotation <- function(fileName, objectName) {
 #' @examples
 #' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
 #' h1 = getHisto1D(histoFile, '1')
-#' getHisto1D()
+#'
 
 getHisto1D <- function(fileName, histoName) {
 
@@ -126,7 +126,7 @@ getHisto1D <- function(fileName, histoName) {
 #' @examples
 #' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
 #' h2 = getHisto2D(histoFile, '10')
-#' getHisto2D()
+#'
 
 getHisto2D <- function(fileName, histoName) {
 
@@ -166,7 +166,7 @@ getHisto2D <- function(fileName, histoName) {
 #' @examples
 #' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
 #' h3 = getHisto3D(histoFile, '13')
-#' getHisto3D()
+#'
 
 getHisto3D <- function(fileName, histoName) {
 
@@ -211,7 +211,7 @@ getHisto3D <- function(fileName, histoName) {
 #' @examples
 #' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
 #' p1d = getProfile1D(histoFile, 'Example profile (gauss)')
-#' getProfile1D()
+#'
 
 getProfile1D <- function(fileName, histoName) {
 
@@ -245,7 +245,7 @@ getProfile1D <- function(fileName, histoName) {
 #' @examples
 #' histoFile = system.file("extdata", "histos.xml.gz", package="aidar")
 #' p2d = getProfile2D(histoFile, 'Example 2D profile (gauss)')
-#' getProfile2D()
+#'
 
 getProfile2D <- function(fileName, histoName) {
 
@@ -284,7 +284,7 @@ getProfile2D <- function(fileName, histoName) {
 #' @examples
 #' tupleFile = system.file("extdata", "tuple.xml.gz", package="aidar")
 #' t100 = getTuple(tupleFile, '100')
-#' getTuple()
+#'
 
 getTuple <- function(fileName, tupName) {
 
@@ -312,7 +312,7 @@ getTuple <- function(fileName, tupName) {
 #' @examples
 #' histoFile = system.file("extdata", "clouds.xml.gz", package="aidar")
 #' c1d = getCloud1D(histoFile, '21')
-#' getCloud1D()
+#'
 
 getCloud1D <- function(fileName, cloudName) {
 
@@ -337,7 +337,7 @@ getCloud1D <- function(fileName, cloudName) {
 #' @examples
 #' histoFile = system.file("extdata", "clouds.xml.gz", package="aidar")
 #' c2d = getCloud2D(histoFile, '30')
-#' getCloud2D()
+#'
 
 getCloud2D <- function(fileName, cloudName) {
 
@@ -363,7 +363,7 @@ getCloud2D <- function(fileName, cloudName) {
 #' @examples
 #' histoFile = system.file("extdata", "clouds.xml.gz", package="aidar")
 #' c3d = getCloud3D(histoFile, '33')
-#' getCloud3D()
+#'
 
 getCloud3D <- function(fileName, cloudName) {
 
