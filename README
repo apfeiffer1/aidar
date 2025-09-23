@@ -19,14 +19,19 @@ Then you can install the development version of the package
 	library(devtools)
 	
 	dev_mode(on=T) # switch to development mode (if you want)
-	install_github("aidar", username="apfeiffer1")
+	install_github("https://github.com/apfeiffer1/aidar.git")
 	library(aidar)
 	
 	# now you can use the aidar library - see the "examples of usage" below
 	
 	# when finished do:
 	dev_mode(on=F)      # ... and you are back to having stable ggplot2
-	
+
+When developing the package, you can use:
+
+	devtools::load_all()  # to load the package
+	devtools::check()     # to check the package -- which runs the tests as well
+
 ## Examples of usage
 
 ### Listing the content of a file
