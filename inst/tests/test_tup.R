@@ -10,7 +10,7 @@ test_that("reading a tuple from file", {
 	expect_equal( names(t100) , c( "lin", "sin", "gauss", "flat" ) )
 
 	expect_equal( length(t100),    4 )  # nCol
-	expect_equal( length(t100$lin), 501 )  # nRow	
+	expect_equal( length(t100$lin), 251001 )  # nRow	
 	
 	expect_equal( mean(t100$sin)  ,  0.000437, tolerance = 1.E-3, scale = mean(t100$sin) )
 	expect_equal( mean(t100$gauss),  0.355   , tolerance = 1.E-3, scale = mean(t100$gauss) )
