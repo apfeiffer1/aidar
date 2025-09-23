@@ -10,3 +10,7 @@ Suggests:
 Imports:
     XML
 RoxygenNote: 7.3.3
+Authors@R: person(given = "Andreas",
+                      family = "Pfeiffer",
+                      role = c("aut", "cre"),
+                      email = "apfeiffer1@gmail.com")
