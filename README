@@ -5,8 +5,13 @@ This package allows to read histograms and tuples from <a href="http://aida.free
 
 The various objects from the file will be converted into R's dataframes. 
 
-
 ## Installing the development version of aidar from github:
+
+On a Raspberry Pi (Bookworm 12.12), the development version of the package needs the following additional packages to be installed first:
+
+	sudo apt install -y libcurl4-openssl-dev libxml2-dev libssl-dev libfontconfig1-dev libgit2-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libwebp-dev
+
+Then you can install the development version of the package	
 
 (from <http://stackoverflow.com/questions/9656016/how-to-install-development-version-of-r-packages-github-repository>)
 
