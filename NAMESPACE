@@ -1,4 +1,3 @@
-
 export(getAnnotation)
 export(getCloud1D)
 export(getCloud2D)
@@ -10,4 +9,4 @@ export(getHisto3D)
 export(getProfile1D)
 export(getProfile2D)
 export(getTuple)
-import(XML)
+importFrom(XML, XMLDocument, xmlParse, xmlRoot, xmlValue, xmlSApply, xmlAttrs)
