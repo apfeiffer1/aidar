@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# remove files and dirs before building the package
+rm -rf .github
