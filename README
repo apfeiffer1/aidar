@@ -9,7 +9,10 @@ The various objects from the file will be converted into R's dataframes.
 
 On a Raspberry Pi (Bookworm 12.12), the development version of the package needs the following additional packages to be installed first:
 
-	sudo apt install -y libcurl4-openssl-dev libxml2-dev libssl-dev libfontconfig1-dev libgit2-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libwebp-dev
+	sudo apt install -y libcurl4-openssl-dev libxml2-dev libssl-dev \
+			 libfontconfig1-dev libgit2-dev libharfbuzz-dev libfribidi-dev \
+			 libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libwebp-dev \
+			 devscripts
 
 Then you can install the development version of the package	
 
