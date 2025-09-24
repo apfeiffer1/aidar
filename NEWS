@@ -2,9 +2,11 @@
 aidar News
 ----------
 
-Changes in version 1.0.6 (2025-09-24)
+Changes in version 1.0.7 (2025-09-24)
 
-    - Fixes reported on some platforms
+    - Updates to NAMESPACE to properly handle imports for XML funcs
+    - Add 'roxygen2' generated doc files
+    - Fixes reported on additional platforms
     - Updates to NEWS and DESCRIPTION to remove warnings
 
 Changes in version 1.0.0 (2013-12-11)
